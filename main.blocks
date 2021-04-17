@@ -1,0 +1,33 @@
+<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable id="c,sK5o9D%ibN.piXg{,8">bumperLocation</variable><variable id="Q#-C}nHzP82@phit:{Ze">bumper</variable><variable id="L(9DgOvb_s|K?qNz+WHE">flierLocation</variable><variable id="ds-P_QVQVHlbo$qT7mlx">playerStartLocation</variable></variables><block type="function_definition" id="J,[hN!_$]-eIr7%iS1UY" x="10" y="10"><mutation name="createEnemies" functionid="n@6X.M}v~!o(9z}^M[lX"/><field name="function_name">createEnemies</field><comment>************CHECKLIST**************
+- create all the enemies
+- create the introductions
+- create a double jump function
+- attach animation to jump, run, and crouch
+- attach animations to all enemies
+- create a function to initialize the level (clear the game, set the level, create the player &amp; enemies)
+- onOverlaps for; coin, fliers, goombas, goals
+- function to create the goals
+- function to cycle through introductions
+- function to check which level we are on
+- game.onUpdate to check how the hero is moving (and whether to animate)
+- game.onUpdate to regulate flier movement
+- game.onUpdate to check if we are standing on the ground
+- game.onupdate to regulate goomba movement</comment><statement name="STACK"><block type="pxt_controls_for_of" id="68G$8{+$KN/.[+dwZ_gX"><comment>spawn bumpers</comment><value name="VAR"><shadow type="variables_get_reporter" id="*DtmQqxa0A)W=)]=Z+iK"><field name="VAR" id="c,sK5o9D%ibN.piXg{,8">bumperLocation</field></shadow></value><value name="LIST"><block type="mapgettilestype" id="~k*t)TY{;-*uge@BCRw9"><value name="tile"><shadow type="tileset_tile_picker" id="PqBQj11[db*PxyJ?!nUO"><field name="tile">assets.tile`tile4`</field></shadow></value></block></value><statement name="DO"><block type="variables_set" id="1k;36K[Se*+=q_g(6hE7"><field name="VAR" id="Q#-C}nHzP82@phit:{Ze">bumper</field><value name="VALUE"><shadow type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="?E7K_d=:0fT)u8j-^t(t"><value name="img"><shadow type="screen_image_picker" id="jXg^^IAR4qn_sr3_#)O2"><field name="img">img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`</field><data>{"commentRefs":[],"fieldData":{"img":"jXg^^IAR4qn_sr3_#)O2"}}</data></shadow></value><value name="kind"><shadow type="spritekind"/><block type="typescript_expression" id="5GA(?t^:nSOYJ|Vpq9uX" editable="false"><field name="EXPRESSION">SpriteKind.Bumper</field></block></value></block></value></block></statement><next><block type="pxt_controls_for_of" id="TZCbYV6.ga23gVM`7Vz5"><comment>spawn fliers</comment><value name="VAR"><shadow type="variables_get_reporter" id="mv5H^)..=0I)TJ5=HDpf"><field name="VAR" id="L(9DgOvb_s|K?qNz+WHE">flierLocation</field></shadow></value><value name="LIST"><block type="mapgettilestype" id="yd+KA.^F+hJ4wdRJr4ab"><value name="tile"><shadow type="tileset_tile_picker" id="m)0Il`95P#rpjQ]{tX`9"><field name="tile">assets.tile`tile7`</field></shadow></value></block></value></block></next></block></statement></block><block type="function_definition" id="edmkV@||L1K;v]?UQhm*" x="10" y="10"><mutation name="initializeLevel" functionid="@So:Y2Y9P!Z49mVTiNKf"><arg name="level" id="x0g7tdu4u2jaqypyeg2r" type="number"/></mutation><field name="function_name">initializeLevel</field><comment>createEnemies
+spawnGoals</comment><statement name="STACK"><block type="particlesStartScreenAnimation" id="[8M]/}^A9w=z-HWm(M/3"><mutation xmlns="http://www.w3.org/1999/xhtml" _expanded="0" _input_init="false"></mutation><field name="effect">effects.clouds</field><next><block type="variables_set" id="Z4cBkx%RA)37-{)$zDwu"><field name="VAR" id="ds-P_QVQVHlbo$qT7mlx">playerStartLocation</field><value name="VALUE"><shadow type="math_number"><field name="NUM">0</field></shadow><block type="lists_index_get" id="i$g;uSwkp2)]]^)M|THc"><value name="LIST"><block type="mapgettilestype" id="?I2R;UY.S8fnW)=R#8cX"><value name="tile"><shadow type="tileset_tile_picker" id="b/e`4di(1*vQ}b2cxpQC"><field name="tile">assets.tile`tile6`</field></shadow></value></block></value><value name="INDEX"><shadow type="math_number" id="uYPlGvWr7jSbCESzMK@v"><field name="NUM">0</field></shadow></value></block></value><next><block type="mapplaceontile" id="=X^r3!TPvlcbKVRg*$?2"><value name="sprite"><shadow type="variables_get"/><block type="typescript_expression" id="~:Pb^p-LItLg5w+~11Z/" editable="false"><field name="EXPRESSION">hero</field></block></value><value name="loc"><shadow type="mapgettile"/><block type="typescript_expression" id="!;FG0RH8m7I`i=$6O~5%" editable="false"><field name="EXPRESSION">playerStartLocation</field></block></value><next><block type="mapsettileat" id="1U@:Ub)Rn_=/pQ-i3SlJ"><value name="tile"><shadow type="tileset_tile_picker" id="ASxoYx(fD#dtSxhp}3kh"><field name="tile">assets.tile`tile0`</field></shadow></value><value name="loc"><shadow type="mapgettile"/><block type="typescript_expression" id=".m]n1|[00mdU@bhM[I@1" editable="false"><field name="EXPRESSION">playerStartLocation</field></block></value></block></next></block></next></block></next></block></statement></block><block type="pxt-on-start" id="9a-Xk7e)8rl#7i@z(*_I" x="10" y="10"><statement name="HANDLER"><block type="function_call" id="*pfOXz_l1#aV,GMV?G/X"><mutation name="initializeLevel" functionid="@So:Y2Y9P!Z49mVTiNKf"><arg name="level" id="x0g7tdu4u2jaqypyeg2r" type="number"/></mutation><value name="x0g7tdu4u2jaqypyeg2r"><shadow type="math_number" id="z*Jp=sc|2mHMoci#gGFr"><field name="NUM">1</field></shadow><block type="typescript_expression" id="uR#X|h:o.QKr5Vq3%Ggm" editable="false"><field name="EXPRESSION">currentLevel</field></block></value></block></statement></block><block type="typescript_expression" id="T=o[Vf~YW;u%uPP3LT6@" disabled="true" editable="false" x="1860" y="238"><field name="EXPRESSION">null</field></block></xml>

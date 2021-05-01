@@ -17,6 +17,14 @@
 - game.onupdate to regulate goomba movement
 
 */
+function attemptJump(){
+    if (hero.isHittingTile(CollisionDirection.Bottom)) {
+        hero.vy = -4 * pixelsToMeters
+    }
+    if (canDoubleJump){
+
+    }
+}
 function createEnemies () {
     // spawn bumpers
     for (let bumperLocation of tiles.getTilesByType(assets.tile`tile4`)){
@@ -64,5 +72,12 @@ function initializeLevel(level: number){
     // createEnemies
     // spawnGoals
 }
-
+controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+    attemptJump()
+})
 initializeLevel(currentLevel)
+game.onUpdate(function() {
+    if (hero.isHittingTile(CollisionDirection.Bottom)){
+        canDoubleJump = true
+    }
+})

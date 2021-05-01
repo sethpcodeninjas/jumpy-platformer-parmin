@@ -17,12 +17,28 @@
 - game.onupdate to regulate goomba movement
 
 */
+function createCoins(){
+    for (let loc of tiles.getTilesByType(assets.tile`tile5`)){
+        coin = sprites.create(coinImgs[0], SpriteKind.Coin)
+        tiles.placeOnTile(coin, loc)
+        animation.runImageAnimation(coin, coinImgs, 75, true)
+        tiles.setTileAt(loc, assets.tile`tile0`)
+    }
+}
 function attemptJump(){
     if (hero.isHittingTile(CollisionDirection.Bottom)) {
         hero.vy = -4 * pixelsToMeters
     }
-    if (canDoubleJump){
-
+    else if (canDoubleJump){
+        if (hero.vy >= 40){
+            hero.vy = -5 * pixelsToMeters
+            scene.cameraShake(2)
+            hero.startEffect(effects.spray,250)
+        }
+        else {
+            hero.vy = -3 * pixelsToMeters
+        }
+        canDoubleJump = false
     }
 }
 function createEnemies () {
@@ -69,8 +85,8 @@ function initializeLevel(level: number){
     playerStartLocation = tiles.getTilesByType(assets.tile`tile6`)[0]
     tiles.placeOnTile(hero, playerStartLocation)
     tiles.setTileAt(playerStartLocation, assets.tile`tile0`)
-    // createEnemies
-    // spawnGoals
+    createEnemies()
+    createCoins()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
     attemptJump()
@@ -80,4 +96,61 @@ game.onUpdate(function() {
     if (hero.isHittingTile(CollisionDirection.Bottom)){
         canDoubleJump = true
     }
+})
+// Check goomba movement 
+game.onUpdate(function() {
+    let currentGoombas = sprites.allOfKind(SpriteKind.Bumper)
+    for (let goomba of currentGoombas){
+        if (goomba.isHittingTile(CollisionDirection.Left)){
+            goomba.vx = randint(30, 60)
+        }
+        else if (goomba.isHittingTile(CollisionDirection.Right)){
+            goomba.vx = randint(-60, -30)
+        }
+    }
+})
+// check flier movement
+game.onUpdate(function() {
+    let currentFliers = sprites.allOfKind(SpriteKind.Flier)
+    for (let value of currentFliers){
+        if (Math.abs(value.x - hero.x) < 60){
+            if (value.x - hero.x < 5){
+                value.vx = 25
+            }
+            else if (value.x - hero.x > 5){
+                value.vx = -25
+            }
+            if (value.y - hero.y < -5){
+                value.vy = 25
+            }
+            else if (value.y - hero.y > 5){
+                value.vy = -25
+            }
+            animation.runImageAnimation(value, flierImgs, 20, false)
+        }
+        else {
+            value.vy = -20
+            value.vx = 0
+        }
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Bumper, function(sprite: Sprite, otherSprite: Sprite) {
+    if (sprite.vy > 0 && !sprite.isHittingTile(CollisionDirection.Bottom)){
+        otherSprite.destroy(effects.ashes, 250)
+        otherSprite.vy = -50
+        sprite.vy = -2 * pixelsToMeters
+        info.changeScoreBy(1)
+        music.powerUp.play()
+    }
+    else {
+        info.changeLifeBy(-1)
+        sprite.say("Ow!", invincibilityPeriod)
+        music.powerDown.play()
+    }
+    pause(invincibilityPeriod)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function(sprite: Sprite, otherSprite: Sprite) {
+    otherSprite.destroy(effects.trail, 250)
+    info.changeScoreBy(3)
+    music.baDing.play()
 })
